@@ -3,14 +3,14 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 const User = require('../models/User');
-const auth  = require('../middleware/auth');
+const authVerifyJWT  = require('../middleware/auth');
 
 const router = express.Router();
 
 //* @routes GET api/auth
 //* @desc Get logged in user
-// @access Private
-router.get('/', auth, async (req, res) => {
+//* @access Private
+router.get('/', authVerifyJWT, async (req, res) => {
     try {
         // req.user.id has the encoded user from the auth middleware
         const user = await User.findById(req.user.id).select('-password');
@@ -25,7 +25,7 @@ router.get('/', auth, async (req, res) => {
 
 //* @routes POST api/auth
 //* @desc Login and get token
-// @access Public
+//* @access Public
 router.post('/',[
     check('email', 'Please add a valid email.').isEmail(),
     check('password', 'Password is required').exists()
