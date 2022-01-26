@@ -4,11 +4,12 @@ const { check, validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+
 const router = express.Router();
 
 //* @routes POST api/users
-// @desc Register a user
-// @access Public
+//* @desc Register a user
+//* @access Public
 router.post(
   "/",
   [
@@ -54,6 +55,7 @@ router.post(
         { expiresIn: 360000 },
         (err, token) => {
           if (err) throw err;
+
           res.status(201).json({ token });
         }
       );
